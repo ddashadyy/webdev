@@ -1,12 +1,10 @@
 var express = require("express");
-
 var db = require("./database.js");
-
 var router = express.Router();
+var isAuth = require("./isAuth")
 
-module.exports = router
 
-router.get("/listStudentGroups", (req, res) => {
+router.get("/listStudentGroups", isAuth.isAuthenticated, (req, res) => {
     db.all('SELECT * FROM student_group', (err, rows) => {
         if (err) { // если произошла ошибка, то будет сгенерировано исключение (программа прекратит свою работу), можно предусмотреть другую обработку таких исключительных ситуаций
             throw err;
@@ -72,3 +70,5 @@ router.post("/deleteStudentGroup/:id", (req, res) => {
         }
     );
 });
+
+module.exports = router

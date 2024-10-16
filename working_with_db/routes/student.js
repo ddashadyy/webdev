@@ -1,10 +1,11 @@
 var express = require("express");
 var db = require("./database.js");
 var router = express.Router();
+var isAuth = require('./isAuth');
 
-module.exports = router;
 
-router.get("/listStudents", (req, res) => {
+
+router.get("/listStudents", isAuth.isAuthenticated, (req, res) => {
   db.all(
     `SELECT student.*, student_group.name as student_group_name FROM student
       INNER JOIN student_group ON student_group.id=student.student_group_id`,
@@ -92,3 +93,5 @@ router.post("/deleteStudent/:id", (req, res) => {
     }
   );
 });
+
+module.exports = router;

@@ -1,10 +1,10 @@
 var express = require("express");
 var router = express.Router();
 var db = require("./database.js");
+var isAuth = require('./isAuth');
 
-module.exports = router;
 
-router.get("/schedule", (req, res) => {
+router.get("/schedule", isAuth.isAuthenticated, (req, res) => {
     db.all('SELECT * FROM student_group', (err, rows) => {
         if (err) {
             throw err;
@@ -47,7 +47,7 @@ router.get("/groupSchedule/:student_group_id", (req, res) => {
 });
 
 router.route("/addRecordSchedule/:student_group_id")
-    .get((req, res) => {
+    .get(isAuth.isAuthenticated, (req, res) => {
         db.get(
             `SELECT * FROM student_group WHERE id=?`,
             [req.params.student_group_id], (err, rows) => {
@@ -95,3 +95,6 @@ router.post("/deleteSchedule/scheduleId=:schedule_id/studentGroupId=:student_gro
         }
     );
 });
+
+
+module.exports = router

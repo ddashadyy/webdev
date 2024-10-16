@@ -1,10 +1,11 @@
 var express = require("express");
 var db = require("./database.js");
 var router = express.Router();
+var isAuth = require("./isAuth")
 
-module.exports = router;
 
-router.get("/listTeachers", (req, res) => {
+
+router.get("/listTeachers", isAuth.isAuthenticated, (req, res) => {
   db.all(
     `SELECT teacher.* FROM teacher`,
     (err, rows) => {
@@ -77,7 +78,7 @@ router.post("/deleteTeacher/:id", (req, res) => {
   );
 });
 
-router.get("/listDisciplineTeacher", (req, res) => {
+router.get("/listDisciplineTeacher", isAuth.isAuthenticated, (req, res) => {
   db.all(
     `SELECT discipline.id as discipline_id, discipline.name as discipline_name, teacher.id as teacher_id, teacher.name as teacher_name 
           FROM discipline_teacher
@@ -136,3 +137,5 @@ router.post("/deleteDisciplineTeacher/disciplineId=:discipline_id/teacherId=:tea
     }
   );
 });
+
+module.exports = router;

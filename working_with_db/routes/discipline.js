@@ -1,10 +1,10 @@
 var express = require("express");
 var db = require("./database.js");
 var router = express.Router();
+var isAuth = require('./isAuth');
 
-module.exports = router;
 
-router.get("/listDisciplines", (req, res) => {
+router.get("/listDisciplines", isAuth.isAuthenticated, (req, res) => {
   db.all(
     `SELECT discipline.* FROM discipline`,
     (err, rows) => {
@@ -76,3 +76,5 @@ router.post("/deleteDiscipline/:id", (req, res) => {
     }
   );
 });
+
+module.exports = router;
