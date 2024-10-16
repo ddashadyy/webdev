@@ -1,0 +1,14 @@
+extends ../head
+
+block content
+    .container.mt-4
+        h2.text-center Обновить информацию о преподавателе
+        form(action="/updateTeacher/" + teacher.id, method="POST" class="mb-3")
+            .mb-3
+                label(for="name") ФИО преподавателя
+                input(name="name" type="text" class="form-control" placeholder="ФИО преподавателя" value=teacher.name required)
+            .text-center
+                input.btn.btn-primary(type="submit" value="Обновить")
+        
+        form(action="/deleteTeacher/" + teacher.id, method="POST" class="text-center")
+            input.btn.btn-danger(type="submit" value="Удалить")

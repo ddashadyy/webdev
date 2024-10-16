@@ -1,0 +1,17 @@
+extends ../head
+
+block content
+    .container.mt-4
+        h2.text-center Добавить студента
+        form(action="/addStudent" method="POST", class="needs-validation", novalidate)
+            .mb-3
+                label(for="studentName") ФИО студента
+                input#studentName.form-control(name="name" type="text" placeholder="ФИО студента" required)
+                .invalid-feedback Пожалуйста, введите ФИО студента.
+            .mb-3
+                label(for="studentGroup") Группа
+                select#studentGroup.form-select(name="student_group_id", required)
+                    each el in studentGroups
+                        option(value=el.id) #{el.name}
+                .invalid-feedback Пожалуйста, выберите группу.
+            button.btn.btn-primary(type="submit") Добавить

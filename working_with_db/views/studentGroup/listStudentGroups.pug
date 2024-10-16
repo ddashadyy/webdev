@@ -1,0 +1,10 @@
+extends ../head
+
+block content
+    .container.mt-4
+        h1.text-center.mb-4 Добавить студенческую группу
+        a(href="/addTeacher" class="btn btn-success mb-3") Добавить студенческую группу
+        .list-group
+            each el in studentGroups
+                li(class="list-group-item d-flex justify-content-between align-items-center")
+                    a(href="/studentGroup/" + el.id class="text-decoration-none") #{el.name}

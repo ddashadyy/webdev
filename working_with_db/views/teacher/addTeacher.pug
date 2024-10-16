@@ -1,0 +1,10 @@
+extends ../head
+
+block content
+    .container.mt-4
+        h2.text-center Добавить преподавателя
+        form(action="/addTeacher" method="POST" class="form-group")
+            .mb-3
+                input.form-control(name="name" type="text" placeholder="ФИО преподавателя" required)
+            .text-center
+                input.btn.btn-primary(type="submit" value="Добавить")

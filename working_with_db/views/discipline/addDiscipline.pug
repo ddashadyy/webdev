@@ -1,0 +1,11 @@
+
+extends ../head
+
+block content
+    .container.mt-4
+        h2.text-center Добавить дисциплину
+        form(action="/addDiscipline" method="POST" class="form-group")
+            .mb-3
+                input.form-control(name="name" type="text" placeholder="Наименование дисциплины" required)
+            .text-center
+                input.btn.btn-primary(type="submit" value="Добавить")
