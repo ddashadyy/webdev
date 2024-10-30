@@ -9,83 +9,95 @@ class CartController
     // Создание новой корзины
     async createNewCart(req, res)
     {
-        const { id } = req.params;
-        const { userId, productId, count, price } = req.body;
+        try{
+            const { id } = req.params;
+            const { userId, productId, count, price } = req.body;
 
-        const isCartExists = await prisma.cart.findUnique
-        (
-            { where: { id: id } }
-        );
-
-        if (isCartExists) return res.json({ message: "Корзина уже создана" });
-        else
-        {
-            const newCart = await prisma.cart.create
+            const isCartExists = await prisma.cart.findUnique
             (
-                {
-                    data:
-                    {
-                        user_id: parseInt(userId),
-                        product_id: parseInt(productId),
-                        count: parseInt(count),
-                        price: parseFloat(price)
-                    }
-                }
+                { where: { id: id } }
             );
-            return res.json(newCart);
+
+            if (isCartExists) return res.json({ message: "Корзина уже создана" });
+            else
+            {
+                const newCart = await prisma.cart.create
+                (
+                    {
+                        data:
+                        {
+                            user_id: parseInt(userId),
+                            product_id: parseInt(productId),
+                            count: parseInt(count),
+                            price: parseFloat(price)
+                        }
+                    }
+                );
+                return res.json(newCart);
+            }
+        } catch(e) {
+            console.log(e);
         }
     }
 
     // Изменение корзины
     async updateCart(req, res)
     {
-        const { id } = req.params;
-        const { userId, productId, count, price } = req.body;
+        try {
+            const { id } = req.params;
+            const { userId, productId, count, price } = req.body;
 
-        const isCartExists = await prisma.cart.findUnique
-        (
-            { where: { id: id } }
-        );
-
-        if (!isCartExists) return res.status(404).json({ message: "Корзина не создана" });
-        else
-        {
-            const updatedCart = await prisma.cart.update
+            const isCartExists = await prisma.cart.findUnique
             (
-                {
-                    where: { id: parseInt(id) },
-                    data: 
-                    {
-                        user_id: parseInt(userId),
-                        product_id: parseInt(productId),
-                        count: parseInt(count),
-                        price: parseFloat(price)
-                    }
-                }
+                { where: { id: id } }
             );
 
-            return res.json(updatedCart);
+            if (!isCartExists) return res.status(404).json({ message: "Корзина не создана" });
+            else
+            {
+                const updatedCart = await prisma.cart.update
+                (
+                    {
+                        where: { id: parseInt(id) },
+                        data: 
+                        {
+                            user_id: parseInt(userId),
+                            product_id: parseInt(productId),
+                            count: parseInt(count),
+                            price: parseFloat(price)
+                        }
+                    }
+                );
+
+                return res.json(updatedCart);
+            }
+        } catch(e) {
+            console.log(e);
         }
     }
 
     // Удаление содержимого корзины
     async deleteCart(req, res)
     {
-        const { id } = req.params;
-        const { userId, productId, count, price } = req.body;
+        try {
+            const { id } = req.params;
+            const { userId, productId, count, price } = req.body;
 
-        const isCartExists = await prisma.cart.findUnique
-        (
-            { where: { id: id } }
-        );
-
-        if (!isCartExists) return res.status(404).json({ message: "Корзина не найдена" });
-        else
-        {
-            const deletedCart = await prisma.cart.delete
+            const isCartExists = await prisma.cart.findUnique
             (
-                { where: { id: parseInt(id) } }
+                { where: { id: id } }
             );
+
+            if (!isCartExists) return res.status(404).json({ message: "Корзина не найдена" });
+            else
+            {
+                const deletedCart = await prisma.cart.delete
+                (
+                    { where: { id: parseInt(id) } }
+                );
+            }
+        } catch(e) {
+            console.log(e);
         }
     }
 

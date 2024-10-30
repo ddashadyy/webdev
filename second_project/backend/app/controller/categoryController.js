@@ -8,79 +8,95 @@ class CategoryController
     // Создание новой категории
     async createNewCategory(req, res)
     {
-        const { name } = req.body;
-        const isCategoryExists = await prisma.category.findFirst
-        (
-            { data: { name: name } }
-        );
-
-        if (isCategoryExists) return res.json({ message: "Данная категория уже существует" });
-        else
-        {
-            const newCategory = await prisma.category.create
+        try {
+            const { name } = req.body;
+            const isCategoryExists = await prisma.category.findFirst
             (
-                { data: { name: name} }
+                { data: { name: name } }
             );
 
-            return res.json(newCategory);
+            if (isCategoryExists) return res.json({ message: "Данная категория уже существует" });
+            else
+            {
+                const newCategory = await prisma.category.create
+                (
+                    { data: { name: name} }
+                );
+
+                return res.json(newCategory);
+            }
+        } catch(e) {
+            console.log(e);
         }
     }
 
     // Изменение категории
     async updateCategory(req, res)
     {
-        const { id } = req.params;
-        const { name } = req.body;
+        try {
+            const { id } = req.params;
+            const { name } = req.body;
 
-        const isCategoryExists = await prisma.category.findUnique
-        (
-            { where: { id: parseInt(id) } }
-        );
-
-        if (!isCategoryExists) return res.status(404).json({ message: "Категория не найдена" });
-        else
-        {
-            const updatedCategory = await prisma.category.update
+            const isCategoryExists = await prisma.category.findUnique
             (
-                {
-                    where: { id: parseInt(id) },
-                    data: { name: name }
-                }
+                { where: { id: parseInt(id) } }
             );
-            
-            return res.json(updatedCategory);
+
+            if (!isCategoryExists) return res.status(404).json({ message: "Категория не найдена" });
+            else
+            {
+                const updatedCategory = await prisma.category.update
+                (
+                    {
+                        where: { id: parseInt(id) },
+                        data: { name: name }
+                    }
+                );
+                
+                return res.json(updatedCategory);
+            }
+        } catch(e) {
+            console.log(e);
         }
     }
 
     // Удаление категории
     async deleteCategory(req, res)
     {
-        const { id } = req.params;
-        const { name } = req.body;
+        try {
+            const { id } = req.params;
+            const { name } = req.body;
 
-        const isCategoryExists = await prisma.category.findUnique
-        (
-            { where: { id: parseInt(id) } }
-        );
-
-        if (!isCategoryExists) return res.status(404).json({ message: "Категория не найдена" });
-        else
-        {
-            const deletedCategory = await prisma.category.delete
+            const isCategoryExists = await prisma.category.findUnique
             (
-                { where: { name: name }}
+                { where: { id: parseInt(id) } }
             );
 
-            return res.json(deletedCategory);
-        }        
+            if (!isCategoryExists) return res.status(404).json({ message: "Категория не найдена" });
+            else
+            {
+                const deletedCategory = await prisma.category.delete
+                (
+                    { where: { name: name }}
+                );
+
+                return res.json(deletedCategory);
+            }
+        } catch(e) {
+            console.log(e);
+        }
     }
 
     // Получение всех категорий
     async getAllCategories(req, res)
     {
-        const categories = await prisma.category.findMany();
-        console.log(categories);
-        // return res.json(categories);
+        try {
+            const categories = await prisma.category.findMany();
+            console.log(categories);
+            return res.json(categories);
+        } catch(e) {
+            console.log(e);
+        }
     }
 }
 

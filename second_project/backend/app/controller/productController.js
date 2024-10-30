@@ -8,120 +8,139 @@ class ProductController
     // Создание нового продукта
     async createNewProduct(req, res) 
     {
-        const { name, price, description, count, urlImage } = req.body;
-        const { categoryId } = req.params;
+        try {
+            const { name, price, description, count, urlImage } = req.body;
+            const { categoryId } = req.params;
 
-        const isProductExists = await prisma.product.findFirst
-        (
-            { where: { name: name } }
-        );
-
-        if (isProductExists) return res.json({ message: "Данный продукт уже существует" });
-        else 
-        {
-            const newProduct = await prisma.product.create
+            const isProductExists = await prisma.product.findFirst
             (
-                {
-                    data:
-                    {
-                        name: name,
-                        price: parseFloat(price),
-                        description: description,
-                        category_id: parseInt(categoryId),
-                        count: parseInt(count),
-                        url_image: urlImage
-                    }
-                }
+                { where: { name: name } }
             );
-            return res.json(newProduct);
+
+            if (isProductExists) return res.json({ message: "Данный продукт уже существует" });
+            else 
+            {
+                const newProduct = await prisma.product.create
+                (
+                    {
+                        data:
+                        {
+                            name: name,
+                            price: parseFloat(price),
+                            description: description,
+                            category_id: parseInt(categoryId),
+                            count: parseInt(count),
+                            url_image: urlImage
+                        }
+                    }
+                );
+                return res.json(newProduct);
+            }
+        } catch(e) {
+            console.log(e);
         }
     }
 
     // Изменение продукта
     async updateProduct(req, res) 
     {
-        const { id } = req.params;
-        const { name, price, description, count, urlImage } = req.body;
+        try {
+            const { id } = req.params;
+            const { name, price, description, count, urlImage } = req.body;
 
-        const isProductExists = await prisma.product.findUnique
-        (
-            { where: { id: parseInt(id) } }
-        );
-
-        if (!isProductExists) return res.status(404).json({ message: "Продукт не найден" });
-        else
-        {
-            const updatedProduct = await prisma.product.update
+            const isProductExists = await prisma.product.findUnique
             (
-                {
-                    where:
-                    {
-                        id: parseInt(id),
-                    },
-                    data:
-                    {
-                        name: name,
-                        price: parseFloat(price),
-                        description: description,
-                        count: parseInt(count),
-                        url_image: urlImage
-                    }
-                }
+                { where: { id: parseInt(id) } }
             );
-            
-            return res.json(updatedProduct);
+
+            if (!isProductExists) return res.status(404).json({ message: "Продукт не найден" });
+            else
+            {
+                const updatedProduct = await prisma.product.update
+                (
+                    {
+                        where:
+                        {
+                            id: parseInt(id),
+                        },
+                        data:
+                        {
+                            name: name,
+                            price: parseFloat(price),
+                            description: description,
+                            count: parseInt(count),
+                            url_image: urlImage
+                        }
+                    }
+                );
+                
+                return res.json(updatedProduct);
+            }
+        } catch(e) {
+            console.log(e);
         }
     }
 
     // Изменение категории продукта
     async updateProductsCategory(req, res)
     {
-        const { id, categoryId } = req.params;
-        const isProductExists = await prisma.product.findUnique
-        (
-            { where: { id: parseInt(id) } }
-        );
+        try {
+            const { id, categoryId } = req.params;
+            const isProductExists = await prisma.product.findUnique
+            (
+                { where: { id: parseInt(id) } }
+            );
 
-        if (!isProductExists) return res.status(404).json({ message: "Продукт не найден" });
+            if (!isProductExists) return res.status(404).json({ message: "Продукт не найден" });
 
-        const updatedProductsCategory = await prisma.product.update
-        (
-            {
-                where: { id: parseInt(id) },
-                data: { category_id: parseInt(categoryId) }
-            }
-        );
+            const updatedProductsCategory = await prisma.product.update
+            (
+                {
+                    where: { id: parseInt(id) },
+                    data: { category_id: parseInt(categoryId) }
+                }
+            );
 
-        return res.json(updatedProductsCategory);
-
+            return res.json(updatedProductsCategory);
+        } catch(e) {
+            console.log(e);
+        }
     }
 
     // Удаление продукта
     async deleteProduct(req, res)
     {
-        const { id } = req.params;
-        const { name } = req.body;
+        try {
+            const { id } = req.params;
+            const { name } = req.body;
 
-        const isProductExists = await prisma.product.findUnique
-        (
-            { where: { id: parseInt(id) } }
-        );
+            const isProductExists = await prisma.product.findUnique
+            (
+                { where: { id: parseInt(id) } }
+            );
 
-        if (!isProductExists) return res.status(404).json({ message: "Продукт не найден" });
+            if (!isProductExists) return res.status(404).json({ message: "Продукт не найден" });
 
-        const deletedProduct = await prisma.product.delete
-        (
-            { where: { name: name } }
-        );
+            const deletedProduct = await prisma.product.delete
+            (
+                { where: { name: name } }
+            );
 
-        return res.json(deletedProduct);
+            return res.json(deletedProduct);
+        } catch(e) {
+            console.log(e);
+        }
     }
 
     async getAllProducts(req, res)
     {
-        const products = await prisma.product.findMany();
-        console.log(products)
-        // return res.json(products);
+        try {
+            const products = await prisma.product.findMany();
+            console.log(products)
+            return res.json(products);
+        } catch(e) {
+            console.log(e);
+        }
     }
 }
 

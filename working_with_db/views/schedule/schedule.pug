@@ -1,9 +1,0 @@
-extends ../head
-
-block content
-    .container.mt-4
-        h1.text-center.mb-4 Группы студентов
-        ul.list-group
-            each el in studentGroups
-                li.list-group-item
-                    a(href="/groupSchedule/" + el.id class="text-decoration-none") #{el.name}
