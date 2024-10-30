@@ -9,13 +9,13 @@ datasource db {
 
 model Category {
   id      Int       @id @default(autoincrement())
-  name    String    @db.Char(50) @unique
+  name    String    @unique
   product Product[]
 }
 
 model Product {
   id          Int        @id @default(autoincrement())
-  name        String     @db.Char(50) @unique
+  name        String     @unique
   price       Float
   description String?
   category_id Int
