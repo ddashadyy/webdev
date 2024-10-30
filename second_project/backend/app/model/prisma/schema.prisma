@@ -1,0 +1,65 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Category {
+  id      Int       @id @default(autoincrement())
+  name    String    @db.Char(50) @unique
+  product Product[]
+}
+
+model Product {
+  id          Int        @id @default(autoincrement())
+  name        String     @db.Char(50) @unique
+  price       Float
+  description String?
+  category_id Int
+  count       Int
+  url_image   String?
+  category    Category   @relation(fields: [category_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  cart        Cart[]
+  wishList    WishList[]
+}
+
+model User {
+  id         Int        @id @default(autoincrement())
+  username   String     @db.Char(50) @unique
+  password   String     @db.Char(150)
+  role       Role
+  firstname  String     @db.Char(20)
+  lastname   String     @db.Char(20)
+  middlename String     @db.Char(20)
+  cart       Cart[]
+  wishList   WishList[]
+}
+
+model Cart {
+  id        Int     @id @default(autoincrement())
+  user_id    Int
+  product_id Int
+  count     Int
+  price     Float
+  product   Product @relation(fields: [product_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  user      User    @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
+}
+
+model WishList {
+  user_id    Int
+  product_id Int
+  comment   String?
+  user      User    @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  product   Product @relation(fields: [product_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  @@id([user_id, product_id])
+}
+
+enum Role {
+  administrator
+  customer
+  seller
+}
