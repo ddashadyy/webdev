@@ -26,10 +26,11 @@ class CategoryController
     {
         try 
         {
-            const name = req.body.name;
+            const { name } = req.body.name;
+            console.log(name);
             const isCategoryExists = await prisma.category.findUnique
             (
-                { data: { name: name } }
+                { where: { name: name } }
             );
 
             if (isCategoryExists) res.json({ message: "Данная категория уже существует" });
@@ -80,10 +81,10 @@ class CategoryController
     {
         try
         {
-            const id = req.params.id;
+            const { id } = req.params;
             const deletedCategoryById = await prisma.category.delete
             (
-                { where: { id: id} }
+                { where: { id: parseInt(id) } }
             );
             
             console.log(deletedCategoryById);
