@@ -28,32 +28,32 @@ model Product {
 
 model User {
   id         Int        @id @default(autoincrement())
-  username   String     @db.Char(50) @unique
-  password   String     @db.Char(150)
-  role       Role
-  firstname  String     @db.Char(20)
-  lastname   String     @db.Char(20)
-  middlename String     @db.Char(20)
+  username   String     @unique
+  password   String
+  role       Role?      @default(customer)
+  firstname  String
+  lastname   String
+  middlename String
   cart       Cart[]
   wishList   WishList[]
 }
 
 model Cart {
-  id        Int     @id @default(autoincrement())
-  user_id    Int
-  product_id Int
-  count     Int
-  price     Float
-  product   Product @relation(fields: [product_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  user      User    @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  id         Int      @id @default(autoincrement())
+  user_id    Int?
+  product_id Int?
+  count      Int
+  price      Float
+  product    Product? @relation(fields: [product_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  user       User?    @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
 }
 
 model WishList {
   user_id    Int
   product_id Int
-  comment   String?
-  user      User    @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  product   Product @relation(fields: [product_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  comment    String?
+  user       User    @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  product    Product @relation(fields: [product_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
 
   @@id([user_id, product_id])
 }
