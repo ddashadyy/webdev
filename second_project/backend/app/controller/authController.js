@@ -26,7 +26,8 @@ class AuthController {
                 return res.status(400).json({ message: "User already exists" });
             }
 
-            hashedPassword = bcrypt.hashSync(password, 7);
+            const hashedPassword = bcrypt.hashSync(password, 7);
+            
 
             const newUser = await prisma.user.create({
                 data: {
@@ -65,7 +66,18 @@ class AuthController {
                     const token = generateAccessToken(user.id);
 
                     console.log(token);
-                    res.json(token);
+
+                    const responseUser = {
+                        id: user.id,
+                        username: user.username,
+                        role: user.role,
+                        firstname: user.firstname,
+                        lastname: user.lastname,
+                        middlename: user.middlename,
+                        accessToken: token
+                    }
+
+                    res.json(responseUser);
                 } else {
                     res.json({ message: "Неверный логин или пароль" });
                 }
@@ -96,12 +108,12 @@ class AuthController {
 
         const user = await prisma.user.findUnique({
             where: {
-                username: isVerified.id,
+                id: isVerified.id,
             },
         });
 
         console.log({ user, token });
-        res.json({ user, token });
+        res.status(200).json({ user, token });
         } catch (e) {
             console.log(e);
             res.status(500).json(e);
@@ -144,6 +156,6 @@ class AuthController {
             res.status(500).json(e);
         }
     }
-
-
 }
+
+module.exports = new AuthController();

@@ -2,8 +2,9 @@ const express = require("express");
 const cors = require("cors");
 const router = require("./app/route/index");
 const path = require("path");
-dotenv.config();
-const PORT = process.env.PORT;
+const fileUpload = require('express-fileupload');
+
+const PORT = process.env.PORT || 5000;
 const app = express();
 
 
@@ -16,8 +17,10 @@ const corsOptions = {
 app.use(cors(corsOptions));
 app.use(express.json());
 app.use("/api", router);
-app.use(notFound);
-app.use(errorHandler);
+app.use(fileUpload());
+app.use(express.static("files"));
+
+// подключение работы с переменными окружениями
 
 
 const start = async () => {

@@ -1,5 +1,0 @@
--- AlterTable
-ALTER TABLE "Category" ALTER COLUMN "name" SET DATA TYPE TEXT;
-
--- AlterTable
-ALTER TABLE "Product" ALTER COLUMN "name" SET DATA TYPE TEXT;
