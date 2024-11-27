@@ -3,7 +3,7 @@
     <div class="row">
       <div class="col-sm-4">
         <div v-if="!submitted">
-          <form @submit.prevent="handleSubmit">
+          <form @submit.prevent="handleSubmit" class="form-container">
             <div class="form-group">
               <input
                 type="text"
@@ -67,9 +67,9 @@
           </form>
         </div>
         <div v-else>
-          <router-link to="/listProducts"
-            >Товар успешно добавлен! Перейти к списку товаров.</router-link
-          >
+          <router-link to="/listProducts" class="success-message">
+            Товар успешно добавлен! Перейти к списку товаров.
+          </router-link>
         </div>
       </div>
       <div class="col-sm-4">
@@ -78,13 +78,60 @@
             v-if="icon"
             :src="icon"
             alt="Brand Icon"
-            style="width: 150px; height: auto"
+            class="product-icon"
           />
         </div>
       </div>
     </div>
   </div>
 </template>
+
+<style scoped>
+.form-container {
+  background-color: #ffffff; 
+  padding: 20px; 
+  border-radius: 8px; 
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); 
+}
+
+.form-control {
+  border: 1px solid #ccc; 
+  border-radius: 5px; 
+  padding: 10px;
+  transition: border-color 0.3s; 
+}
+
+.form-control:focus {
+  border-color: #007bff; 
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); 
+}
+
+.btn-success {
+  background-color: #28a745; 
+  color: white; 
+  border: none; 
+  border-radius: 5px; 
+  padding: 10px 15px; 
+  cursor: pointer; 
+}
+
+.btn-success:hover {
+  background-color: #218838; 
+}
+
+.success-message {
+  display: block;
+  margin-top: 20px;
+  text-align: center; 
+  color: #28a745; 
+}
+
+.product-icon {
+  width: 150px;
+  height: auto;
+}
+</style>
+
 
 <script>
 import { defineComponent, ref, onMounted } from "vue";

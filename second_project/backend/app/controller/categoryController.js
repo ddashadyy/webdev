@@ -61,9 +61,20 @@ class CategoryController {
   async deleteCategoryById(req, res) {
     try {
       const { id } = req.params;
-      const deletedCategoryById = await prisma.category.delete({
-        where: { id: parseInt(id) },
-      });
+
+    // Проверяем, существует ли категория
+    const category = await prisma.category.findUnique({
+      where: { id: Number(id) }, // Убедитесь, что ID преобразован в число
+    });
+
+    if (!category) {
+      return res.status(404).json({ message: 'Категория не найдена' });
+    }
+
+    // Если категория существует, удаляем её
+    const deletedCategoryById = await prisma.category.delete({
+      where: { id: Number(id) },
+    });
 
       console.log(deletedCategoryById);
       res.status(200).json(deletedCategoryById);

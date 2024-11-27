@@ -128,6 +128,7 @@ class ProductController {
   async deleteProductById(req, res) {
     try {
       const { id } = req.params;
+      console.log(id);
       const deletedProduct = await prisma.product.delete({
         where: { id: parseInt(id) },
       });

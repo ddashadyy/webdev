@@ -1,23 +1,108 @@
 <template>
-    <div v-if="category">
-      <h4>Категория</h4>
-      <div v-if="!submitted">
-        <form @submit="updateCategory">
-            <input type="text" name="name" id="name" placeholder="Наименование категории" required v-model="category.name">
-            <input type="submit" value="Обновить">
-        </form>
-        <button @click="deleteCategory">Удалить</button>
-      </div>
-      <div v-else>
-        <h4>Вы успешно обновили запись</h4>
-        <router-link to="/listCategories">Вернуться к списку категорий</router-link>
-    </div>
+  <div class="category-update-container" v-if="category">
+    <h4 class="header">Категория</h4>
+    <div v-if="!submitted">
+      <form @submit="updateCategory" class="category-form">
+        <input type="text" name="name" id="name" placeholder="Наименование категории" required v-model="category.name" class="form-input">
+        <input type="submit" value="Обновить" class="submit-button">
+      </form>
+      <button @click="deleteCategory" class="delete-button">Удалить</button>
     </div>
     <div v-else>
-      <br>
-      <p>Выберите категорию</p>
+      <h4 class="success-message">Вы успешно обновили запись</h4>
+      <router-link to="/listCategories" class="link">Вернуться к списку категорий</router-link>
     </div>
-  </template>
+  </div>
+  <div v-else>
+    <br>
+    <p class="select-category-message">Выберите категорию</p>
+  </div>
+</template>
+
+<style scoped>
+.category-update-container {
+  max-width: 500px; 
+  margin: 0 auto; 
+  padding: 20px; 
+  background-color: #ffffff; 
+  border-radius: 8px; 
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); 
+}
+
+.header {
+  text-align: center; 
+  color: #333; 
+}
+
+.category-form {
+  display: flex;
+  flex-direction: column; 
+}
+
+.form-input {
+  padding: 10px; 
+  margin-bottom: 15px; 
+  border: 1px solid #ccc; 
+  border-radius: 5px; 
+  font-size: 16px;
+}
+
+.form-input:focus {
+  border-color: #007bff; 
+  outline: none; 
+}
+
+.submit-button {
+  padding: 10px; 
+  background-color: #28a745; 
+  border: none; 
+  border-radius: 5px; 
+  color: white; 
+  font-size: 16px; 
+  cursor: pointer; 
+}
+
+.submit-button:hover {
+  background-color: #218838; 
+}
+
+.delete-button {
+  padding: 10px; 
+  background-color: #dc3545; 
+  border: none; 
+  border-radius: 5px; 
+  color: white; 
+  font-size: 16px; 
+  cursor: pointer; 
+  margin-top: 10px; 
+}
+
+.delete-button:hover {
+  background-color: #c82333; 
+}
+
+.success-message {
+  text-align: center; 
+  color: #28a745; 
+}
+
+.link {
+  display: block; 
+  text-align: center; 
+  margin-top: 15px; 
+  color: #007bff; 
+}
+
+.link:hover {
+  text-decoration: underline; 
+}
+
+.select-category-message {
+  text-align: center; 
+  color: #666; 
+}
+</style>
+
   
   <script>
   import { defineComponent, ref, onMounted } from 'vue';

@@ -4,6 +4,7 @@ const prisma = new PrismaClient();
 class CartController {
   async getCart(req, res) {
     try {
+      // console.log(req.params.id);
       const carts = await prisma.cart.findMany({
         distinct: ["product_id", "user_id"],
         where: {
@@ -12,19 +13,20 @@ class CartController {
         },
         include: {
           product: true,
-          _count: {
-            select: {
-              product: true,
-            },
-          },
+          user: true,
+          // _count: {
+          //   select: {
+          //     product: true,
+          //   },
+          // },
         },
       });
 
       console.log(carts);
 
       res.status(200).json(carts);
-    } catch (e) {
-      console.log(e);
+    } catch (error) {
+      console.log(error);
     }
   }
 
@@ -43,6 +45,7 @@ class CartController {
         // сохраняем обновленную запись в базе данных
         existingCart = await prisma.cart.update({
           where: {
+            id: existingCart.id,
             user_id: req.body.user_id,
             product_id: req.body.product_id,
             price: null,
@@ -53,13 +56,17 @@ class CartController {
         });
       } else {
         // Если товара в корзине нет, создаем новую запись
-        existingCart = await prisma.cart.create({
+        
+        const newCart = await prisma.cart.create({
           data: {
+            id: req.body.id,
             user_id: req.body.user_id,
             product_id: req.body.product_id,
             count: 1,
           },
         });
+        res.status(200).json(newCart);
+        return;
       }
 
       res.status(200).json(existingCart);
@@ -72,8 +79,8 @@ class CartController {
     try {
       let existingCart = await prisma.cart.findFirst({
         where: {
-          user_id: user_id,
-          product_id: product_id,
+          user_id: req.body.user_id,
+          product_id: req.body.product_id,
           price: null,
         },
       });
@@ -91,6 +98,7 @@ class CartController {
         // Если количество товара больше 1, уменьшаем его на единицу
         existingCart = await prisma.cart.update({
           where: {
+            id: existingCart.id,
             user_id: req.body.user_id,
             product_id: req.body.product_id,
             price: null,
@@ -116,4 +124,4 @@ class CartController {
   }
 }
 
-module.exports = new CartController();
+module.exports = new CartController();  

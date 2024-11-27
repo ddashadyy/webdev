@@ -1,6 +1,6 @@
 <template>
   <div class="col-md-5 mx-auto mt-4">
-    <h4 class="text-center">Регистрация пользователя</h4>
+    <h4 class="text-center registration-header">Регистрация пользователя</h4>
     <form @submit.prevent="handleRegister" class="registration-form">
       <div v-if="!successful">
         <div class="form-group mb-3">
@@ -11,7 +11,7 @@
             v-model="user.username"
             required
           />
-          <div v-if="usernameError" class="text-danger">
+          <div v-if="usernameError" class="text-danger error-message">
             {{ usernameError }}
           </div>
         </div>
@@ -23,7 +23,7 @@
             v-model="user.password"
             required
           />
-          <div v-if="passwordError" class="text-danger">
+          <div v-if="passwordError" class="text-danger error-message">
             {{ passwordError }}
           </div>
         </div>
@@ -80,6 +80,48 @@
     </form>
   </div>
 </template>
+
+<style scoped>
+.registration-header {
+  color: #333; 
+  margin-bottom: 20px; 
+}
+
+.registration-form {
+  background-color: #f8f9fa; 
+  border-radius: 10px; 
+  padding: 20px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); 
+}
+
+.form-control {
+  border-radius: 5px; 
+  border: 1px solid #ced4da; 
+}
+
+.form-control:focus {
+  border-color: #007bff; 
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); 
+}
+
+.error-message {
+  font-size: 14px; 
+}
+
+.alert {
+  border-radius: 5px; 
+}
+
+.btn-primary {
+  background-color: #007bff; 
+  border-color: #007bff; 
+}
+
+.btn-primary:hover {
+  background-color: #0056b3; 
+  border-color: #0056b3; 
+}
+</style>
 
 <script>
 import { ref, computed, onMounted } from "vue";

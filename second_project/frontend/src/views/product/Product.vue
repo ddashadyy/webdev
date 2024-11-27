@@ -2,7 +2,8 @@
   <div class="container-md mt-3">
     <div class="row">
       <div class="col-sm-8">
-        <div v-if="!submitted">
+        <div v-if="!submitted" class="form-card">
+          <h2 class="form-title">Обновление товара</h2>
           <form @submit.prevent="handleSubmit">
             <div class="form-group">
               <input
@@ -63,12 +64,12 @@
             </div>
             <button type="submit" class="btn btn-success mt-2">Обновить</button>
           </form>
-          <button v-on:click="deleteProduct" class="btn btn-success mt-2">Удалить</button>
+          <button @click="deleteProduct" class="btn btn-danger mt-2">Удалить</button>
         </div>
         <div v-else>
-          <router-link to="/listProducts"
-          >Товар успешно обновлен. Перейти к списку товаров.</router-link
-          >
+          <router-link to="/listProducts" class="success-link">
+            Товар успешно обновлен. Перейти к списку товаров.
+          </router-link>
         </div>
       </div>
       <div class="col-sm-4">
@@ -77,7 +78,7 @@
             v-if="icon"
             :src="icon"
             alt="Товар"
-            style="width: 150px; height: auto"
+            class="product-image"
           />
         </div>
       </div>
@@ -85,30 +86,76 @@
   </div>
 </template>
 
+<style scoped>
+.form-card {
+  background-color: #f9f9f9; 
+  border-radius: 8px; 
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); 
+  padding: 20px; 
+}
+
+.form-title {
+  margin-bottom: 20px; 
+  color: #333; 
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-control {
+  border-radius: 5px; 
+  border: 1px solid #ccc; 
+}
+
+.form-control:focus {
+  border-color: #007bff; 
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); 
+}
+
+.btn-success {
+  background-color: #28a745; 
+  color: white; 
+}
+
+.btn-success:hover {
+  background-color: #218838; 
+}
+
+.btn-danger {
+  background-color: #dc3545; 
+  color: white;
+}
+
+.btn-danger:hover {
+  background-color: #c82333; 
+}
+
+.success-link {
+  display: inline-block;
+  margin-top: 20px; 
+  color: #007bff; 
+}
+
+.success-link:hover {
+  text-decoration: underline; 
+}
+
+.product-image {
+  width: 150px; 
+  height: auto; 
+}
+</style>
+
+
 <script>
 import { defineComponent, ref, onMounted } from "vue";
 import http from "../../http-common";
 import { useRoute } from "vue-router";
+import product from "./Product.vue";
 
 export default defineComponent({
   name: "Product",
-  // data() {
-  //     return {
-  //       product_id : route.params.id
-  //     }
-  // },
-  // methods: {
-  //       async deleteProduct() {
-  //           console.log("stariy_bog zdes'");
-  //           try {
-  //               const response = await http.post(`/product/deleteProduct/${this.product.id}`);
-  //               window.location.href = "/listProducts";
-  //           } catch (e) {
-  //               console.log(e);
-  //           }
-  //       },
-  
-  //   },
   setup() {
     const formData = ref({
       name: "",
@@ -122,6 +169,8 @@ export default defineComponent({
     const submitted = ref(false);
     const icon = ref("");
     const route = useRoute();
+    
+    
 
     // Загрузка данных товара
     const getGood = async () => {
@@ -140,20 +189,27 @@ export default defineComponent({
     };
 
     const deleteProduct = async () => {
-      
-      console.log("stariy_bog zdes'");
-    // async function deleteProduct() {
+      console.log("ya tut");
         try {
-            const response = await http.post(`/product/deleteProduct/${this.product.id}`)
-
-            getProducts()
-
-            window.location.href = "/listProducts";
-
-        } catch (e){
+          const response = await http.post(`/product/deleteProduct/${route.params.id}`);
+          console.log(response);
+          
+          window.location.href = "/listProducts";
+        } catch (e) {
             console.log(e)
         }
-    }
+
+
+      // http
+      //     .post("/product/deleteProduct/" + route.params.id)
+      //     .then(() => {
+      //       router.push('/listProducts'); // переходим к списку категорий
+      //     })
+      //     .catch(e => {
+      //       console.log(e);
+      //     });
+
+    };
 
     const getCategories = async () => {
       try {
@@ -214,6 +270,7 @@ export default defineComponent({
       icon,
       handleFileChange,
       handleSubmit,
+      deleteProduct
     };
   },
 });

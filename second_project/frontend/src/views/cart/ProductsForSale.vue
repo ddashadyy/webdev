@@ -5,16 +5,15 @@
         <div class="alert alert-info">Товары не найдены</div>
       </div>
       <div v-for="product in products" :key="product.id" class="col-md-4 mb-3">
-        <div class="card text-center" style="height: 280px">
+        <div class="card product-card text-center">
           <router-link
             :to="'/product/' + product.id"
-            style="display: inline-block; height: 250px; overflow: hidden"
+            class="product-link"
           >
             <img
               :src="product.url_image"
               alt="product"
-              class="card-img-top"
-              style="width: auto; height: 100%"
+              class="card-img-top product-image"
             />
           </router-link>
           <div class="card-body">
@@ -23,12 +22,12 @@
               Категория:
               {{ product.category ? product.category.name : "Не указана" }}
             </div>
-            <div class="card-text mt-1">Цена: {{ product.price }}</div>
+            <div class="card-text mt-1">Цена: {{ product.price }} руб.</div>
             <div class="card-text mt-1">
               Описание: {{ product.description }}
             </div>
             <button
-              class="btn btn-sm btn-success mt-1"
+              class="btn btn-sm btn-success mt-1 add-to-cart-button"
               @click="handleAddToCart(product)"
             >
               Добавить в корзину
@@ -39,6 +38,52 @@
     </div>
   </div>
 </template>
+
+<style scoped>
+.product-card {
+  background-color: #ffffff; 
+  border-radius: 10px; 
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); 
+  transition: transform 0.3s ease, box-shadow 0.3s ease; 
+}
+
+.product-card:hover {
+  transform: translateY(-5px); 
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2); 
+}
+
+.product-link {
+  display: inline-block;
+  height: 250px;
+  overflow: hidden;
+}
+
+.product-image {
+  width: auto;
+  height: 100%;
+  object-fit: cover; 
+}
+
+.card-title {
+  font-size: 1.25rem; 
+  color: #333; 
+}
+
+.card-text {
+  color: #555; 
+}
+
+.add-to-cart-button {
+  background-color: #28a745; 
+  border-color: #28a745; 
+}
+
+.add-to-cart-button:hover {
+  background-color: #218838; 
+  border-color: #1e7e34; 
+}
+</style>
+
 
 <script setup>
 import { ref, computed, onMounted } from "vue";

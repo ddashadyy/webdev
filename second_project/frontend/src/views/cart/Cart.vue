@@ -1,11 +1,11 @@
 <template>
   <div class="cart-container">
     <div class="cart-float">
-      <h4>Корзина</h4>
-      <ol>
-        <li v-for="(items, productId) in groupedCartItems" :key="productId">
+      <h4 class="cart-header">Корзина</h4>
+      <ol class="cart-list">
+        <li v-for="(items, productId) in groupedCartItems" :key="productId" class="cart-item-wrapper">
           <div class="cart-item">
-            <div>
+            <div class="item-details">
               <strong>{{ items[0].product.name }}</strong> &mdash;
               {{ items[0].product.price }} руб. &mdash; {{ items[0].count }} шт.
               <span
@@ -14,7 +14,6 @@
                 >×</span
               >
             </div>
-            <div></div>
           </div>
         </li>
       </ol>
@@ -22,6 +21,70 @@
     </div>
   </div>
 </template>
+
+<style scoped>
+.cart-container {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 20px;
+}
+
+.cart-float {
+  background-color: #ffffff; 
+  border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  padding: 20px; 
+  width: 300px;
+}
+
+.cart-header {
+  text-align: center; 
+  color: #333; 
+  margin-bottom: 20px; 
+}
+
+.cart-list {
+  list-style-type: none;
+  padding: 0; 
+}
+
+.cart-item-wrapper {
+  margin-bottom: 10px; 
+}
+
+.cart-item {
+  display: flex;
+  justify-content: space-between; 
+  align-items: center; 
+  padding: 10px; 
+  background-color: #f8f9fa; 
+  border-radius: 5px; 
+  transition: background-color 0.3s ease; 
+}
+
+.cart-item:hover {
+  background-color: #e2e6ea;
+}
+
+.item-details {
+  flex-grow: 1; 
+}
+
+.close-icon {
+  cursor: pointer; 
+  color: #dc3545; 
+  font-weight: bold; 
+  margin-left: 10px; 
+}
+
+.total-amount {
+  font-weight: bold; 
+  margin-top: 20px; 
+  text-align: center; 
+}
+</style>
+
 
 <script setup>
 import { computed, onMounted } from "vue";

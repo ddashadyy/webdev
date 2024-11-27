@@ -1,5 +1,5 @@
 <template>
-  <div class="col-md-5 mx-auto mt-4">
+  <div class="col-md-5 mx-auto mt-4 login-container">
     <h4 class="text-center">Вход в систему</h4>
     <form @submit.prevent="handleLogin">
       <div class="form-group mb-3">
@@ -26,7 +26,7 @@
           <span>Войти</span>
         </button>
       </div>
-      <router-link to="/register">Зарегистрироваться</router-link>
+      <router-link to="/register" class="register-link">Зарегистрироваться</router-link>
       <div class="form-group">
         <div v-if="message" class="alert alert-danger" role="alert">
           {{ message }}
@@ -35,6 +35,52 @@
     </form>
   </div>
 </template>
+
+<style scoped>
+.login-container {
+  background-color: #f9f9f9;
+  border-radius: 10px; 
+  padding: 20px; 
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); 
+}
+
+.form-control {
+  border: 1px solid #ced4da; 
+  border-radius: 5px; 
+  transition: border-color 0.3s ease; 
+}
+
+.form-control:focus {
+  border-color: #007bff; 
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); 
+}
+
+.btn-primary {
+  background-color: #007bff; 
+  border-color: #007bff;
+  transition: background-color 0.3s ease, transform 0.2s ease; 
+}
+
+.btn-primary:hover {
+  background-color: #0056b3; 
+  transform: scale(1.05);
+}
+
+.register-link {
+  display: block;
+  margin-top: 15px; 
+  text-align: center; 
+  color: #007bff; 
+}
+
+.register-link:hover {
+  text-decoration: underline; 
+}
+
+.alert {
+  margin-top: 15px; 
+}
+</style>
 
 <script>
 import { ref, computed, onMounted } from "vue";

@@ -1,29 +1,110 @@
 <template>
-    <div>
-      <h4>Добавление категории</h4>
-      <div v-if="!submitted">
-        <!--В @submit указывается обработчик, который выполнится после нажатия на кнопку "Добавить"
-        Обработчик addCategory определён в script-->
-        <form @submit="addCategory">
-          <!--v-model - директива для связывания данных с элементами.
-          Связь происходит при помощи переменных, которые определены в setup()-->
-          <input type="text" name="name" id="name" placeholder="Наименование категории" required v-model="category.name">
-          <input type="submit" value="Добавить">
-        </form>
+  <div class="category-container">
+    <h4 class="header">Добавление категории</h4>
+    <div v-if="!submitted">
+      <form @submit="addCategory" class="category-form">
+        <input
+          type="text"
+          name="name"
+          id="name"
+          placeholder="Наименование категории"
+          required
+          v-model="category.name"
+          class="form-input"
+        />
+        <input type="submit" value="Добавить" class="submit-button" />
+      </form>
+    </div>
+    <div v-else>
+      <h4 class="success-message">Вы успешно добавили запись</h4>
+      <div>
+        <button v-on:click="newCategory" class="new-category-button">Добавить новую категорию</button>
       </div>
-      <div v-else>
-        <h4>Вы успешно добавили запись</h4>
-        <div>
-          <!--В v-on:click указывается обработчик, который выполнится после нажатия на кнопку "Добавить новую категорию"
-          Обработчик newCategory определён в script-->
-          <button v-on:click="newCategory">Добавить новую категорию</button>
-        </div>
-        <div>
-          <router-link to="/listCategories">Вернуться к списку категорий</router-link>
-        </div>
+      <div>
+        <router-link to="/listCategories" class="link">Вернуться к списку категорий</router-link>
       </div>
     </div>
-  </template>
+  </div>
+</template>
+
+<style scoped>
+.category-container {
+  max-width: 500px; 
+  margin: 0 auto; 
+  padding: 20px; 
+  background-color: #ffffff; 
+  border-radius: 8px; 
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); 
+}
+
+.header {
+  text-align: center; 
+  color: #333; 
+}
+
+.category-form {
+  display: flex;
+  flex-direction: column; 
+}
+
+.form-input {
+  padding: 10px; 
+  margin-bottom: 15px; 
+  border: 1px solid #ccc; 
+  border-radius: 5px; 
+  font-size: 16px;
+}
+
+.form-input:focus {
+  border-color: #007bff; 
+  outline: none; 
+}
+
+.submit-button {
+  padding: 10px; 
+  background-color: #28a745; 
+  border: none;
+  border-radius: 5px;
+  color: white; 
+  font-size: 16px; 
+  cursor: pointer; 
+}
+
+.submit-button:hover {
+  background-color: #218838; 
+}
+
+.success-message {
+  text-align: center; 
+  color: #28a745; 
+}
+
+.new-category-button {
+  padding: 10px; 
+  background-color: #007bff; 
+  border: none; 
+  border-radius: 5px; 
+  color: white; 
+  font-size: 16px; 
+  cursor: pointer; 
+}
+
+.new-category-button:hover {
+  background-color: #0056b3; 
+}
+
+.link {
+  display: block;
+  text-align: center; 
+  margin-top: 15px; 
+  color: #007bff; 
+}
+
+.link:hover {
+  text-decoration: underline; 
+}
+</style>
+
   
   <script>
   import { defineComponent, ref } from 'vue';
